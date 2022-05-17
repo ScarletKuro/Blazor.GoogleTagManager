@@ -4,6 +4,8 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<NoWarn>1591;1701;1702;SA1134</NoWarn>
 		<Nullable>enable</Nullable>
+		<TrimMode>link</TrimMode>
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>

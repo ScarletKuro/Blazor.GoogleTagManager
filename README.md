@@ -47,7 +47,7 @@ In the razor component
 ```
 
 ## Additional Settings
-You can add attributes, this can be useful for cookien consent
+You can add attributes, this can be useful for cookie consent
 ```CSharp
 builder.Services.AddGoogleTagManager(options =>
 {

@@ -22,7 +22,7 @@ After the package is added, you need to add the following in your **_Imports.raz
 ```
 
 ### Add Components
-Add the following components to your **MainLayout.razor**
+Add the following component to your **MainLayout.razor**
 ```HTML
 <GoogleTagManagerPageViewTracker />
 ```

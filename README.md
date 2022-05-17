@@ -59,3 +59,6 @@ then in your scrip you will see following
 ```HTML
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```
+
+## Not Supported Scenarios
+There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box as that would require additional JavaScript moddification.

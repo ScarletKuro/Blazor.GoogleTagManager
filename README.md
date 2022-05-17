@@ -1,5 +1,6 @@
 # Blazor.GoogleTagManager
 This is a fork of [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager) but without Havit.Core, since for Blazor WASM every byte counts.
+This library is trim friendly.
 
 ## Getting Started
 ### Register Services

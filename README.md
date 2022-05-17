@@ -62,6 +62,8 @@ then in your scrip you will see following
 ```HTML
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```
+Other useful links for consent settings: [link1](https://support.google.com/tagmanager/answer/10718549) [link2](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
+
 
 ## Troubleshooting
 If nothing happens, even a simple `pageview` event, and you are sure you configured the library and Google Tag Manager correctly, then check if adblocker/firewall doesn't block the Google Tag Manager script. For example, AdGuard by default can remove tracking scripts.

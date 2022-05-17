@@ -25,7 +25,11 @@ Add the following components to your **MainLayout.razor**
 ```
 
 ## Sample Usage
+For general use case please refer to [google tutorials](https://support.google.com/tagmanager/answer/6103696?hl=en) or any other learning materials.
+
 ### Manual Push
+Only if you need to trigger custom events from the code.
+
 In the razor component
 ```CSharp
 @inject IGoogleTagManager GoogleTagManager;

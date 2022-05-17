@@ -18,7 +18,10 @@ namespace Blazor.GoogleTagManager
 		private readonly IJSRuntime _jsRuntime;
 
 		private bool _isInitialized;
-		private IJSObjectReference? _jsModule;
+        private IJSObjectReference? _jsModule;
+
+        /// <inheritdoc/>
+		public bool IsTackingEnabled { get; private set; }
 
 		public GoogleTagManager(
 			IOptions<GoogleTagManagerOptions> gtmOptions,
@@ -30,7 +33,19 @@ namespace Blazor.GoogleTagManager
 			_jsRuntime = jsRuntime;
 		}
 
-		/// <inheritdoc/>
+        /// <inheritdoc/>
+		public void EnableTracking()
+        {
+            IsTackingEnabled = true;
+        }
+
+        /// <inheritdoc/>
+		public void DisableTracking()
+        {
+			IsTackingEnabled = false;
+        }
+
+        /// <inheritdoc/>
 		public async Task InitializeAsync()
 		{
 			if (_isInitialized)
@@ -38,8 +53,13 @@ namespace Blazor.GoogleTagManager
 				return;
 			}
 
+            if (string.IsNullOrEmpty(_gtmOptions.GtmId))
+            {
+                throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
+			}
+
             _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazor.GoogleTagManager/GoogleTagManager.js");
- 
+            
 			await _jsModule.InvokeVoidAsync("initialize" , _gtmOptions.GtmId, _gtmOptions.Attributes);
 
             _isInitialized = true;
@@ -48,6 +68,11 @@ namespace Blazor.GoogleTagManager
 		/// <inheritdoc/>
 		public async Task PushAsync(object data)
         {
+            if (!IsTackingEnabled)
+            {
+				return;
+            }
+
             await InitializeAsync();
             if (_jsModule is not null)
             {
@@ -58,7 +83,12 @@ namespace Blazor.GoogleTagManager
 		/// <inheritdoc/>
 		public async Task PushEventAsync(string eventName, object? eventData = null)
         {
-            await InitializeAsync();
+            if (!IsTackingEnabled)
+            {
+                return;
+            }
+
+			await InitializeAsync();
             if (_jsModule is not null)
             {
                 await _jsModule.InvokeVoidAsync("pushEvent", eventName, eventData);
@@ -74,6 +104,11 @@ namespace Blazor.GoogleTagManager
 		/// <inheritdoc/>
 		async Task IGoogleTagManager.PushPageViewAsync(LocationChangedEventArgs? args)
 		{
+            if (!IsTackingEnabled)
+            {
+                return;
+            }
+
 			if (args is null)
 			{
 				// App firstRender
@@ -87,7 +122,12 @@ namespace Blazor.GoogleTagManager
 
 		private async Task PushPageViewCoreAsync(string url, object? additionalData = null)
         {
-            await InitializeAsync();
+            if (!IsTackingEnabled)
+            {
+                return;
+            }
+
+			await InitializeAsync();
             if (_jsModule is not null)
             {
                 await _jsModule.InvokeVoidAsync("pushPageViewEvent", _gtmOptions.PageViewEventName, _gtmOptions.PageViewUrlVariableName, url, additionalData);

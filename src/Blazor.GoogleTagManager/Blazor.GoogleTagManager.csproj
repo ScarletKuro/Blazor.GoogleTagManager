@@ -6,7 +6,29 @@
 		<Nullable>enable</Nullable>
 		<TrimMode>link</TrimMode>
 		<IsTrimmable>true</IsTrimmable>
+		<IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Authors>ScarletKuro</Authors>
+        <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
+        <PackageTags>GTM, Analytics, Blazor</PackageTags>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <PackageIcon>google-tag-mager-icon.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\google-tag-mager-icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />

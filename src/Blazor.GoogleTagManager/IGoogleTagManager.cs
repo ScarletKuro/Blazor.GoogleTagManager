@@ -7,7 +7,22 @@ namespace Blazor.GoogleTagManager
 	/// Support for <see href="https://developers.google.com/tag-manager/devguide">Google Tag Manager</see> - initialization and pushing data to data-layer.
 	/// </summary>
 	public interface IGoogleTagManager
-	{
+    {
+		/// <summary>
+		/// Indicates whenever the Google Tag Manager tracking is enabled.
+		/// </summary>
+		bool IsTackingEnabled { get; }
+
+		/// <summary>
+		/// Enables Google Tag Manager tracking.
+		/// </summary>
+        void EnableTracking();
+
+        /// <summary>
+        /// Disables Google Tag Manager tracking.
+        /// </summary>
+		void DisableTracking();
+
 		/// <summary>
 		/// Initializes the GTM support.
 		/// Called automatically within first <c>Push</c> call (incl. <see cref="GoogleTagManagerPageViewTracker"/> calls).

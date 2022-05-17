@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<NoWarn>1591;1701;1702;SA1134</NoWarn>
-		<Nullable>enable</Nullable>
-		<TrimMode>link</TrimMode>
-		<IsTrimmable>true</IsTrimmable>
-		<IsPackable>true</IsPackable>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Authors>ScarletKuro</Authors>
-        <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
-        <PackageTags>GTM, Analytics, Blazor</PackageTags>
-        <AssemblyVersion>1.0.1</AssemblyVersion>
-        <PackageIcon>google-tag-mager-icon.png</PackageIcon>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <TargetFramework>net5.0</TargetFramework>
+	  <NoWarn>1591;1701;1702;SA1134</NoWarn>
+	  <Nullable>enable</Nullable>
+	  <TrimMode>link</TrimMode>
+	  <IsTrimmable>true</IsTrimmable>
+	  <IsPackable>true</IsPackable>
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <Version>1.0.1</Version>
+ 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <Authors>ScarletKuro</Authors>
+ 	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
+	  <PackageTags>GTM, Analytics, Blazor</PackageTags>
+	  <PackageIcon>google-tag-mager-icon.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>

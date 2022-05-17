@@ -20,8 +20,8 @@ namespace Blazor.GoogleTagManager
 		private bool _isInitialized;
         private IJSObjectReference? _jsModule;
 
-        /// <inheritdoc/>
-		public bool IsTackingEnabled { get; private set; }
+		/// <inheritdoc/>
+		public bool IsTackingEnabled { get; private set; } = true;
 
 		public GoogleTagManager(
 			IOptions<GoogleTagManagerOptions> gtmOptions,

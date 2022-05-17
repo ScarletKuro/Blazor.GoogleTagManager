@@ -1,5 +1,6 @@
 # Blazor.GoogleTagManager
 This is a fork of [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager) but without Havit.Core, since for Blazor WASM every byte counts.
+This library is trim friendly.
 
 ## Getting Started
 ### Register Services
@@ -24,7 +25,11 @@ Add the following components to your **MainLayout.razor**
 ```
 
 ## Sample Usage
+For general use case please refer to [google tutorials](https://support.google.com/tagmanager/answer/6103696?hl=en) or any other learning materials.
+
 ### Manual Push
+Only if you need to trigger custom events from the code.
+
 In the razor component
 ```CSharp
 @inject IGoogleTagManager GoogleTagManager;
@@ -38,7 +43,7 @@ In the razor component
 }
 ```
 
-### Additional Settings
+## Additional Settings
 You can add attributes, this can be useful for cookien consent
 ```CSharp
 builder.Services.AddGoogleTagManager(options =>
@@ -52,5 +57,8 @@ builder.Services.AddGoogleTagManager(options =>
 ```
 then in your scrip you will see following
 ```HTML
-<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```
+
+## Not Supported Scenarios
+There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box as that would require additional JavaScript moddification.

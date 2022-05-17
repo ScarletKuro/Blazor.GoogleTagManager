@@ -67,7 +67,7 @@ then in your scrip you will see following
 If nothing happens, even a simple `pageview` event, and you are sure you configured the library and Google Tag Manager correctly, then check if adblocker/firewall doesn't block the Google Tag Manager script. For example, AdGuard by default can remove tracking scripts.
 Try to use console and other tools to make sure that the script(`https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX`) is present on the page and that you have access to dataLayer object.
 
-Also, there is [debug](https://support.google.com/tagmanager/answer/6107056?hl=en) feature for Google Tag Manager that will always help you to debug your triggers and show that your GTM is hooked up properly.
+Also, there is [debug](https://support.google.com/tagmanager/answer/6107056?hl=en) / [tag assistant](https://tagassistant.google.com/) feature for Google Tag Manager that will always help you to debug your triggers and show that your GTM is hooked up properly.
 
 ## Not Supported Scenarios
 There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box, as that would require additional JavaScript modification.

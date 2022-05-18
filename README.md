@@ -67,7 +67,7 @@ then in your script you will see following
 ```
 Other useful links for consent settings: [link1](https://support.google.com/tagmanager/answer/10718549) [link2](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
 ### Debug to console
-You can eneable debugging to the browser console.
+You can enable debugging to the browser console.
 ```CSharp
 builder.Services.AddGoogleTagManager(options =>
 {

@@ -1,4 +1,4 @@
-# Blazor.GoogleTagManager
+# <img src="https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/google-tag-mager-icon.png" height="26" /> Blazor.GoogleTagManager
 [![Nuget](https://img.shields.io/nuget/v/Blazor.GoogleTagManager?color=ff4081&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 [![Nuget](https://img.shields.io/nuget/dt/Blazor.GoogleTagManager?color=ff4081&label=nuget%20downloads&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 [![GitHub](https://img.shields.io/github/license/ScarletKuro/Blazor.GoogleTagManager?color=594ae2&logo=github)](https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/LICENSE)

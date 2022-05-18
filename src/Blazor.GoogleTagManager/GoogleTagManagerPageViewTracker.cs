@@ -7,9 +7,11 @@ namespace Blazor.GoogleTagManager
 {
     public class GoogleTagManagerPageViewTracker : ComponentBase, IDisposable
     {
-        [Inject] protected NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] 
+        protected NavigationManager NavigationManager { get; set; } = null!;
 
-        [Inject] protected IGoogleTagManager GoogleTagManager { get; set; } = null!;
+        [Inject] 
+        protected IGoogleTagManager GoogleTagManager { get; set; } = null!;
 
         private LocationChangedEventArgs? _locationChangedEventArgsToReportOnAfterRenderAsync;
 

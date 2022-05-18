@@ -9,6 +9,11 @@ namespace Blazor.GoogleTagManager
     public interface IGoogleTagManager
     {
         /// <summary>
+        /// Indicates if GTM support is initialized.
+        /// </summary>
+        bool IsInitialized { get; }
+
+        /// <summary>
         /// Indicates whenever the Google Tag Manager tracking is enabled.
         /// </summary>
         bool IsTackingEnabled { get; }

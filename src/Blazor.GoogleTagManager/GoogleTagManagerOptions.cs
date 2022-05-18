@@ -8,10 +8,13 @@ namespace Blazor.GoogleTagManager
     public class GoogleTagManagerOptions
     {
         /// <summary>
-        /// GTM-ID
+        /// GTM-ID.
         /// </summary>
         public string GtmId { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Google Tag Manager script attributes.
+        /// </summary>
         public Dictionary<string, string> Attributes { get; set; } = new();
 
         /// <summary>

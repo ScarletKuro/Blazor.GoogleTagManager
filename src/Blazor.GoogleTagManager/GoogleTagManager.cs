@@ -17,8 +17,10 @@ namespace Blazor.GoogleTagManager
         private readonly NavigationManager _navigationManager;
         private readonly IJSRuntime _jsRuntime;
 
-        private bool _isInitialized;
         private IJSObjectReference? _jsModule;
+
+        /// <inheritdoc/>
+        public bool IsInitialized { get; private set; }
 
         /// <inheritdoc/>
         public bool IsTackingEnabled { get; private set; } = true;
@@ -48,7 +50,7 @@ namespace Blazor.GoogleTagManager
         /// <inheritdoc/>
         public async Task InitializeAsync()
         {
-            if (_isInitialized)
+            if (IsInitialized)
             {
                 return;
             }
@@ -58,12 +60,11 @@ namespace Blazor.GoogleTagManager
                 throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
             }
 
-            _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/Blazor.GoogleTagManager/GoogleTagManager.js");
+            _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazor.GoogleTagManager/GoogleTagManager.js");
 
             await _jsModule.InvokeVoidAsync("initialize", _gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
 
-            _isInitialized = true;
+            IsInitialized = true;
         }
 
         /// <inheritdoc/>

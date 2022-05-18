@@ -27,6 +27,7 @@ Add the following component to your **MainLayout.razor**
 ```HTML
 <GoogleTagManagerPageViewTracker />
 ```
+**NB!** There is no need to add `_content/Blazor.GoogleTagManager/GoogleTagManager.js` in indedx.html / _Host.cshtml, the script is imported automatically. 
 
 ## Sample Usage
 For general use case, please refer to [google tutorials](https://support.google.com/tagmanager/answer/6103696?hl=en) or any other learning materials.

@@ -71,7 +71,7 @@ Other useful links for consent settings: [link1](https://support.google.com/tagm
 ### Debug to console
 You can enable debugging to the browser console. This helps to see whatever the library is initialized properly.
 
-Keep in mind that this will only output the events that is done by this library, it will not show the triggers that were configured in the [Google Tag Manager Dashboard](https://tagmanager.google.com/). For the rest, please, use this [debug](#debuging-your-google-tag-manager) section.
+Keep in mind that this will only output the events that is done by this library, it will not show the triggers that were configured in the [Google Tag Manager Dashboard](https://tagmanager.google.com/). For the rest, please, use this [debug](#debugging-your-google-tag-manager) section.
 ```CSharp
 builder.Services.AddGoogleTagManager(options =>
 {
@@ -92,9 +92,9 @@ Example output
 ## Troubleshooting
 If nothing happens, even a simple `pageview` event, and you are sure you configured the library and Google Tag Manager correctly, then check if adblocker/firewall doesn't block the Google Tag Manager script. For example, AdGuard by default can remove tracking scripts.
 
-Try to use [console](#debug-to-console) and other [tools](#debuging-your-google-tag-manager) to make sure that the script(`https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX`) is present on the page and that you have access to dataLayer object.
+Try to use [console](#debug-to-console) and other [tools](#debugging-your-google-tag-manager) to make sure that the script(`https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX`) is present on the page and that you have access to dataLayer object.
 
-### Debuging your Google Tag Manager
+### Debugging your Google Tag Manager
 There is [debug](https://support.google.com/tagmanager/answer/6107056?hl=en) / [tag assistant](https://tagassistant.google.com/) feature for Google Tag Manager that will always help you to debug your triggers and show that your GTM is hooked up properly.
 
 ## Not Supported Scenarios

@@ -60,7 +60,7 @@ namespace Blazor.GoogleTagManager
 
             _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazor.GoogleTagManager/GoogleTagManager.js");
             
-			await _jsModule.InvokeVoidAsync("initialize" , _gtmOptions.GtmId, _gtmOptions.Attributes);
+			await _jsModule.InvokeVoidAsync("initialize" , _gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
 
             _isInitialized = true;
 		}
@@ -76,7 +76,7 @@ namespace Blazor.GoogleTagManager
             await InitializeAsync();
             if (_jsModule is not null)
             {
-                await _jsModule.InvokeVoidAsync("push", data);
+                await _jsModule.InvokeVoidAsync("push", data, _gtmOptions.DebugToConsole);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Blazor.GoogleTagManager
 			await InitializeAsync();
             if (_jsModule is not null)
             {
-                await _jsModule.InvokeVoidAsync("pushEvent", eventName, eventData);
+                await _jsModule.InvokeVoidAsync("pushEvent", eventName, eventData, _gtmOptions.DebugToConsole);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Blazor.GoogleTagManager
 			await InitializeAsync();
             if (_jsModule is not null)
             {
-                await _jsModule.InvokeVoidAsync("pushPageViewEvent", _gtmOptions.PageViewEventName, _gtmOptions.PageViewUrlVariableName, url, additionalData);
+                await _jsModule.InvokeVoidAsync("pushPageViewEvent", _gtmOptions.PageViewEventName, _gtmOptions.PageViewUrlVariableName, url, additionalData, _gtmOptions.DebugToConsole);
             }
         }
 

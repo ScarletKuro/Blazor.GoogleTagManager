@@ -23,5 +23,10 @@ namespace Blazor.GoogleTagManager
 		/// Name of the variabel to be used for URL when page-view is tracked.
 		/// </summary>
 		public string PageViewUrlVariableName { get; set; } = "pageUrl";
+
+		/// <summary>
+		/// Allows to print logs in the browser console. Do not use in production.
+		/// </summary>
+		public bool DebugToConsole { get; set; }
 	}
 }

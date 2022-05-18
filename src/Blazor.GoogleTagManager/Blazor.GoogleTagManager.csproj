@@ -14,7 +14,7 @@
  	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
-	  <PackageTags>GTM, Analytics, Blazorm, Google, Tag, Manager</PackageTags>
+	  <PackageTags>GTM, Analytics, Blazor, Google, Tag, Manager</PackageTags>
 	  <PackageIcon>google-tag-mager-icon.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>

@@ -61,7 +61,7 @@ builder.Services.AddGoogleTagManager(options =>
       };
 });
 ```
-then in your scrip you will see following
+then in your script you will see following
 ```HTML
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```

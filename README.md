@@ -1,4 +1,4 @@
-# <img src="https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/google-tag-mager-icon.png" height="26" /> Blazor.GoogleTagManager
+# ![google tag manager logo](https://i.imgur.com/IOdiEbN.png) Blazor.GoogleTagManager
 [![Nuget](https://img.shields.io/nuget/v/Blazor.GoogleTagManager?color=ff4081&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 [![Nuget](https://img.shields.io/nuget/dt/Blazor.GoogleTagManager?color=ff4081&label=nuget%20downloads&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 [![GitHub](https://img.shields.io/github/license/ScarletKuro/Blazor.GoogleTagManager?color=594ae2&logo=github)](https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/LICENSE)
@@ -6,7 +6,7 @@
 This is a fork of [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager) but without Havit.Core, since for Blazor WASM every byte counts.
 This library is trim friendly.
 
-### [Changelog](CHANGELOG.md)
+### [Changelog](https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/CHANGELOG.md)
 
 ## Getting Started
 ### Register Services

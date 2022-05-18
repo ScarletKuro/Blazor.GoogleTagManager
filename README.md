@@ -32,7 +32,7 @@ Add the following component to your **MainLayout.razor**
 ## Sample Usage
 For general use case, please refer to [google tutorials](https://support.google.com/tagmanager/answer/6103696?hl=en) or any other learning materials.
 
-### Manual Push
+### Manual push
 Only if you need to trigger custom events from the code.
 
 In the razor component
@@ -49,6 +49,7 @@ In the razor component
 ```
 
 ## Additional Settings
+### Attributes
 You can add attributes, this can be useful for cookie consent
 ```CSharp
 builder.Services.AddGoogleTagManager(options =>
@@ -65,7 +66,24 @@ then in your scrip you will see following
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```
 Other useful links for consent settings: [link1](https://support.google.com/tagmanager/answer/10718549) [link2](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
-
+### Debug to console
+You can eneable debugging to the browser console.
+```CSharp
+builder.Services.AddGoogleTagManager(options =>
+{
+      options.GtmId = "GTM-XXXXXXX";
+      options.DebugToConsole = true;
+});
+```
+Example output
+```
+[GTM]: Configured with GtmId = GTM-XXXXXXX
+GoogleTagManager.js:28 [GTM]:{"pageUrl":"https://localhost:5001/","event":"virtualPageView"}
+GoogleTagManager.js:28 [GTM]:{"isNavigationIntercepted":"True","pageUrl":"https://localhost:5001/counter","event":"virtualPageView","gtm.uniqueEventId":14}
+GoogleTagManager.js:28 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":16}
+GoogleTagManager.js:28 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":17}
+```
+**NB!** Do not use this option in production.
 
 ## Troubleshooting
 If nothing happens, even a simple `pageview` event, and you are sure you configured the library and Google Tag Manager correctly, then check if adblocker/firewall doesn't block the Google Tag Manager script. For example, AdGuard by default can remove tracking scripts.
@@ -77,3 +95,5 @@ Also, there is [debug](https://support.google.com/tagmanager/answer/6107056?hl=e
 There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box, as that would require additional JavaScript modification.
 
 There is also no support for [renaming](https://developers.google.com/tag-platform/tag-manager/web/datalayer#tag-manager) the dataLayer object for the Google Tag Manager.
+
+### [Changelog](CHANGELOG.md)

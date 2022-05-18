@@ -78,10 +78,10 @@ builder.Services.AddGoogleTagManager(options =>
 Example output
 ```
 [GTM]: Configured with GtmId = GTM-XXXXXXX
-GoogleTagManager.js:28 [GTM]:{"pageUrl":"https://localhost:5001/","event":"virtualPageView"}
-GoogleTagManager.js:28 [GTM]:{"isNavigationIntercepted":"True","pageUrl":"https://localhost:5001/counter","event":"virtualPageView","gtm.uniqueEventId":14}
-GoogleTagManager.js:28 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":16}
-GoogleTagManager.js:28 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":17}
+[GTM]:{"pageUrl":"https://localhost:5001/","event":"virtualPageView"}
+[GTM]:{"isNavigationIntercepted":"True","pageUrl":"https://localhost:5001/counter","event":"virtualPageView","gtm.uniqueEventId":14}
+[GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":16}
+[GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":17}
 ```
 **NB!** Do not use this option in production.
 

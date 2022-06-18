@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-	  <TargetFramework>net5.0</TargetFramework>
+	  <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
 	  <NoWarn>1591;1701;1702;SA1134</NoWarn>
 	  <Nullable>enable</Nullable>
 	  <TrimMode>link</TrimMode>
 	  <IsTrimmable>true</IsTrimmable>
+	  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	  <IsPackable>true</IsPackable>
-	  <IncludeSymbols>true</IncludeSymbols>
-	  <Version>1.1.0</Version>
- 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	  <Authors>ScarletKuro</Authors>
+	  <Version>1.1.1</Version>
  	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
@@ -18,6 +17,18 @@
 	  <PackageIcon>google-tag-mager-icon.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
+
+	<PropertyGroup>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+	  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup> 
 
 	<ItemGroup>
 	  <None Include="..\..\google-tag-mager-icon.png">
@@ -36,6 +47,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.14" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>

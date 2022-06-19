@@ -21,6 +21,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     GitHubActionsImage.UbuntuLatest,
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
+    PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
     ImportSecrets = new[] { (nameof(NuGetApiKey)) })]
 class Build : NukeBuild
@@ -58,6 +59,7 @@ class Build : NukeBuild
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -77,6 +79,7 @@ class Build : NukeBuild
     Target Pack => _ => _
         .Produces(PackagesDirectory / "*.nupkg")
         .Produces(PackagesDirectory / "*.snupkg")
+        .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() => {
             DotNetPack(_ => _
                 .Apply(PackSettings));

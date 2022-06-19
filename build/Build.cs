@@ -35,7 +35,7 @@ class Build : NukeBuild
     public static int Main () => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    readonly Configuration Configuration = Configuration.Release; //always want to be release mode even on local machine
 
     [Parameter] string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
     [Parameter] [Secret] readonly string NuGetApiKey;
@@ -77,6 +77,7 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
+        .After(Compile)
         .Produces(PackagesDirectory / "*.nupkg")
         .Produces(PackagesDirectory / "*.snupkg")
         .Requires(() => Configuration.Equals(Configuration.Release))

@@ -9,7 +9,6 @@
 	  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	  <IsPackable>true</IsPackable>
 	  <Authors>ScarletKuro</Authors>
-	  <Version>1.1.1</Version>
  	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
@@ -24,7 +23,6 @@
 	  <IncludeSymbols>true</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
-
 
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 	  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
@@ -42,12 +40,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<SupportedPlatform Include="browser" />
+	  <SupportedPlatform Include="browser" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.14" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.14" />
+	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	  <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.107" PrivateAssets="all" />
 	</ItemGroup>
 
 </Project>

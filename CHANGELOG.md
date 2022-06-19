@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.1] - 2022-06-19
+#### Added
+- Nuget Source Link support.
+
 ## [1.1.0] - 2022-05-18
 #### Added
 - New IsInitialized property in IGoogleTagManager
@@ -28,8 +32,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Remove Havit.Core.
 
-[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..1.1.0
+[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..1.1.1
 
+[1.1.1]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.0..1.1.1
 [1.1.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.2..1.1.0
 [1.0.2]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.1..1.0.2
 [1.0.1]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.0..1.0.1

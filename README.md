@@ -6,9 +6,10 @@
 This is a fork of [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager) but without Havit.Core, since for Blazor WASM every byte counts.
 This library is trim friendly.
 
+## 🎉 Release Notes
 ### [Changelog](https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/CHANGELOG.md)
 
-## Getting Started
+## 🚀Getting Started
 ### Register Services
 Blazor ServerSide or WASM
 ```CSharp
@@ -31,7 +32,7 @@ Add the following component to your **MainLayout.razor**
 ```
 **NB!** There is no need to add `_content/Blazor.GoogleTagManager/GoogleTagManager.js` in indedx.html / _Host.cshtml, the script is imported automatically. 
 
-## Sample Usage
+## 📜Sample Usage
 For general use case, please refer to [google tutorials](https://support.google.com/tagmanager/answer/6103696?hl=en) or any other learning materials.
 
 ### Manual push
@@ -50,7 +51,7 @@ In the razor component
 }
 ```
 
-## Additional Settings
+## ⚙️Additional Settings
 ### Attributes
 You can add attributes, this can be useful for cookie consent
 ```CSharp
@@ -87,9 +88,9 @@ Example output
 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":16}
 [GTM]:{"event":"button_click_sample_event","gtm.uniqueEventId":17}
 ```
-**NB!** Do not use this option in production.
+**⚠️NB!** Do not use this option in production.
 
-## Troubleshooting
+## 📢Troubleshooting
 If nothing happens, even a simple `pageview` event, and you are sure you configured the library and Google Tag Manager correctly, then check if adblocker/firewall doesn't block the Google Tag Manager script. For example, AdGuard by default can remove tracking scripts.
 
 Try to use [console](#debug-to-console) and other [tools](#debugging-your-google-tag-manager) to make sure that the script(`https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX`) is present on the page and that you have access to dataLayer object.
@@ -97,7 +98,7 @@ Try to use [console](#debug-to-console) and other [tools](#debugging-your-google
 ### Debugging your Google Tag Manager
 There is [debug](https://support.google.com/tagmanager/answer/6107056?hl=en) / [tag assistant](https://tagassistant.google.com/) feature for Google Tag Manager that will always help you to debug your triggers and show that your GTM is hooked up properly.
 
-## Not Supported Scenarios
+## 📌Limitations / Not Supported Scenarios
 There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box, as that would require additional JavaScript modification.
 
 There is also no support for [renaming](https://developers.google.com/tag-platform/tag-manager/web/datalayer#tag-manager) the dataLayer object for the Google Tag Manager.

@@ -7,9 +7,12 @@
 	  <TrimMode>link</TrimMode>
 	  <IsTrimmable>true</IsTrimmable>
 	  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+	</PropertyGroup>
+	
+	<PropertyGroup>
 	  <IsPackable>true</IsPackable>
 	  <Authors>ScarletKuro</Authors>
- 	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
+	  <Description>Google Tag Manager implementation for Blazor. This is a fork of Havit.Blazor.GoogleTagManager with some enchantments like package size and trim support.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/ScarletKuro/Blazor.GoogleTagManager</RepositoryUrl>
 	  <PackageTags>GTM, Analytics, Blazor, Google, Tag, Manager</PackageTags>

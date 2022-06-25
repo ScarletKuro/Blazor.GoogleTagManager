@@ -32,7 +32,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
     EnableGitHubToken = true,
-    InvokedTargets = new[] { nameof(Push) },
+    InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
     ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
@@ -48,7 +48,6 @@ class Build : NukeBuild
     readonly Configuration Configuration = Configuration.Release; //always want to be release mode even on local machine
 
     [Parameter] string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
-    [Parameter] string GithubNugetApiUrl = "https://nuget.pkg.github.com/ScarletKuro/index.json";
 
     bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
 
@@ -112,19 +111,11 @@ class Build : NukeBuild
             Log.Information("Running push to packages directory.");
 
             Assert.True(!string.IsNullOrEmpty(NuGetApiKey));
-            Assert.True(!string.IsNullOrEmpty(GitHubActions.Instance.Token));
 
             GlobFiles(PackagesDirectory, "*.nupkg")
                 .ForEach(x =>
                 {
                     x.NotNullOrEmpty();
-
-                    DotNetNuGetPush(s => s
-                        .SetTargetPath(x)
-                        .SetSource(GithubNugetApiUrl)
-                        .SetApiKey(GitHubActions.Instance.Token)
-                        .EnableSkipDuplicate()
-                    );
 
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
@@ -134,6 +125,29 @@ class Build : NukeBuild
                     );
                 });
 
+        });
+
+    Target PushGithubNuget => _ => _
+        .DependsOn(Pack)
+        .OnlyWhenStatic(() => IsTag && IsServerBuild)
+        .Requires(() => Configuration.Equals(Configuration.Release))
+        .Executes(() =>
+        {
+            Log.Information("Running push to packages directory.");
+
+            Assert.True(!string.IsNullOrEmpty(GitHubActions.Instance.Token));
+
+            GlobFiles(PackagesDirectory, "*.nupkg")
+                .ForEach(x =>
+                {
+                    x.NotNullOrEmpty();
+                    DotNetNuGetPush(s => s
+                        .SetTargetPath(x)
+                        .SetSource("https://nuget.pkg.github.com/ScarletKuro/index.json")
+                        .SetApiKey(GitHubActions.Instance.Token)
+                        .EnableSkipDuplicate()
+                    );
+                });
         });
 
     Configure<DotNetPackSettings> PackSettings => _ => _

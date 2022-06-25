@@ -22,7 +22,6 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     PublishArtifacts = true,
-    EnableGitHubToken = true,
     InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
     ImportSecrets = new[] { nameof(NuGetApiKey) })]
 [GitHubActions(
@@ -31,9 +30,8 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     FetchDepth = 0,
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
-    EnableGitHubToken = true,
     InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
-    ImportSecrets = new[] { nameof(NuGetApiKey) })]
+    ImportSecrets = new[] { nameof(NuGetApiKey), nameof(PersonalAccessToken) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -52,6 +50,7 @@ class Build : NukeBuild
     bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
 
     [Parameter] [Secret] readonly string NuGetApiKey;
+    [Parameter] [Secret] readonly string PersonalAccessToken;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -130,21 +129,23 @@ class Build : NukeBuild
     Target PushGithubNuget => _ => _
         .DependsOn(Pack)
         .OnlyWhenStatic(() => IsTag && IsServerBuild)
+        .Requires(() => PersonalAccessToken)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
         {
             Log.Information("Running push to packages directory.");
 
-            Assert.True(!string.IsNullOrEmpty(GitHubActions.Instance.Token));
+            Assert.True(!string.IsNullOrEmpty(PersonalAccessToken));
 
             GlobFiles(PackagesDirectory, "*.nupkg")
                 .ForEach(x =>
                 {
                     x.NotNullOrEmpty();
+                    
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
-                        .SetSource("https://nuget.pkg.github.com/ScarletKuro/index.json")
-                        .SetApiKey(GitHubActions.Instance.Token)
+                        .SetSource($"https://nuget.pkg.github.com/{GitHubActions.Instance.RepositoryOwner}/index.json")
+                        .SetApiKey(PersonalAccessToken)
                         .EnableSkipDuplicate()
                     );
                 });

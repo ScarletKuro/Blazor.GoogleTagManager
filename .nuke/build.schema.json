@@ -58,6 +58,10 @@
           "type": "string",
           "description": "Partition to use on CI"
         },
+        "PersonalAccessToken": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
         "Plan": {
           "type": "boolean",
           "description": "Shows the execution plan (HTML)"

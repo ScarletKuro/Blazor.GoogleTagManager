@@ -134,7 +134,6 @@ class Build : NukeBuild
 
         });
 
-
     Configure<DotNetPackSettings> PackSettings => _ => _
         .SetProject(Solution)
         .SetConfiguration(Configuration)

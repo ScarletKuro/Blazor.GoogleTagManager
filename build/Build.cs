@@ -112,22 +112,24 @@ class Build : NukeBuild
             Log.Information("Running push to packages directory.");
 
             Assert.True(!string.IsNullOrEmpty(NuGetApiKey));
+            Assert.True(!string.IsNullOrEmpty(GitHubActions.Instance.Token));
 
             GlobFiles(PackagesDirectory, "*.nupkg")
                 .ForEach(x =>
                 {
                     x.NotNullOrEmpty();
-                    DotNetNuGetPush(s => s
-                        .SetTargetPath(x)
-                        .SetSource(NugetApiUrl)
-                        .SetApiKey(NuGetApiKey)
-                        .EnableSkipDuplicate()
-                    );
 
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource(GithubNugetApiUrl)
                         .SetApiKey(GitHubActions.Instance.Token)
+                        .EnableSkipDuplicate()
+                    );
+
+                    DotNetNuGetPush(s => s
+                        .SetTargetPath(x)
+                        .SetSource(NugetApiUrl)
+                        .SetApiKey(NuGetApiKey)
                         .EnableSkipDuplicate()
                     );
                 });

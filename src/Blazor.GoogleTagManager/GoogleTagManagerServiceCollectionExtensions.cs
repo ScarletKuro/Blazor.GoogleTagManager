@@ -36,7 +36,6 @@ namespace Blazor.GoogleTagManager
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <param name="gtmId">GTM Id./</param>
-        /// <param name="autoInject">GTM JavaScript auto inject.</param>
         /// <returns>The same instance of the <see cref="IServiceCollection"/> for chaining.</returns>
         public static IServiceCollection AddGoogleTagManager(this IServiceCollection services, string gtmId)
         {

@@ -9,12 +9,12 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_dotnet --host GitHubActions
+#         nuke --generate-configuration GitHubActions_continuous --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: dotnet
+name: continuous
 
 on: [push]
 
@@ -37,6 +37,7 @@ jobs:
         run: ./build.cmd Compile Pack
         env:
           NuGetApiKey: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
           name: packages

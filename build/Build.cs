@@ -17,13 +17,23 @@ using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [GitHubActions(
-    "dotnet",
+    "continuous",
     GitHubActionsImage.UbuntuLatest,
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     PublishArtifacts = true,
+    EnableGitHubToken = true,
     InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
-    ImportSecrets = new[] { (nameof(NuGetApiKey)) })]
+    ImportSecrets = new[] { nameof(NuGetApiKey) })]
+[GitHubActions(
+    "release",
+    GitHubActionsImage.UbuntuLatest,
+    FetchDepth = 0,
+    OnPushTags = new[] { @"\d+\.\d+\.\d+" },
+    PublishArtifacts = true,
+    EnableGitHubToken = true,
+    InvokedTargets = new[] { nameof(Push) },
+    ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -38,8 +48,11 @@ class Build : NukeBuild
     readonly Configuration Configuration = Configuration.Release; //always want to be release mode even on local machine
 
     [Parameter] string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
-    [Parameter] [Secret] readonly string NuGetApiKey;
+    [Parameter] string GithubNugetApiUrl = "https://nuget.pkg.github.com/ScarletKuro/index.json";
 
+    bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
+
+    [Parameter] [Secret] readonly string NuGetApiKey;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -91,7 +104,7 @@ class Build : NukeBuild
 
     Target Push => _ => _
         .DependsOn(Pack)
-        .OnlyWhenStatic(() => IsServerBuild)
+        .OnlyWhenStatic(() => IsTag && IsServerBuild)
         .Requires(() => NuGetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
@@ -100,7 +113,7 @@ class Build : NukeBuild
 
             Assert.True(!string.IsNullOrEmpty(NuGetApiKey));
 
-            GlobFiles(PackagesDirectory, "*.nupkg", "*.snupkg")
+            GlobFiles(PackagesDirectory, "*.nupkg")
                 .ForEach(x =>
                 {
                     x.NotNullOrEmpty();
@@ -108,8 +121,17 @@ class Build : NukeBuild
                         .SetTargetPath(x)
                         .SetSource(NugetApiUrl)
                         .SetApiKey(NuGetApiKey)
+                        .EnableSkipDuplicate()
+                    );
+
+                    DotNetNuGetPush(s => s
+                        .SetTargetPath(x)
+                        .SetSource(GithubNugetApiUrl)
+                        .SetApiKey(GitHubActions.Instance.Token)
+                        .EnableSkipDuplicate()
                     );
                 });
+
         });
 
 

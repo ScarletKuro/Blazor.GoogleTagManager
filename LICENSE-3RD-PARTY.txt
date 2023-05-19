@@ -4,7 +4,7 @@ Note that not all files in the pairinteraction repository and in the released
 software packages belong to the pairinteraction project. For 3rd party files, 
 the individual licenses apply.
 
-* Dapplo.Microsoft.Extensions.Hosting (https://github.com/havit/Havit.Blazor)
+* Havit.Blazor (https://github.com/havit/Havit.Blazor)
     Copyright (c) 2019-2021 HAVIT
     The MIT License, https://opensource.org/licenses/MIT
 

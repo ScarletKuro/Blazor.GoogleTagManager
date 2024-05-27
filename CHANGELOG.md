@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-05-27
+#### Removed
+- Drop NET5 support.
+
 ## [1.1.1] - 2022-06-19
 #### Added
 - Nuget Source Link support.
@@ -32,8 +36,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Remove Havit.Core.
 
-[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..1.1.1
+[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..2.0.0
 
+[2.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.1..2.0.0
 [1.1.1]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.0..1.1.1
 [1.1.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.2..1.1.0
 [1.0.2]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.1..1.0.2

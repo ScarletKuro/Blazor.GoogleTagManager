@@ -22,8 +22,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
-    ImportSecrets = new[] { nameof(NuGetApiKey) })]
+    InvokedTargets = new[] { nameof(Compile), nameof(Pack) })]
 [GitHubActions(
     "release",
     GitHubActionsImage.UbuntuLatest,
@@ -31,7 +30,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
-    ImportSecrets = new[] { nameof(NuGetApiKey), nameof(PersonalAccessToken) })]
+    ImportSecrets = new[] { nameof(NuGetApiKey), nameof(GithubToken) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -50,7 +49,7 @@ class Build : NukeBuild
     bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
 
     [Parameter] [Secret] readonly string NuGetApiKey;
-    [Parameter] [Secret] readonly string PersonalAccessToken;
+    [Parameter] [Secret] readonly string GithubToken;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -64,9 +63,9 @@ class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(ArtifactsDirectory);
+            SourceDirectory.GlobDirectories("*/bin", "*/obj").DeleteDirectories();
+            TestsDirectory.GlobDirectories("*/bin", "*/obj").DeleteDirectories();
+            ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -111,10 +110,10 @@ class Build : NukeBuild
 
             Assert.True(!string.IsNullOrEmpty(NuGetApiKey));
 
-            GlobFiles(PackagesDirectory, "*.nupkg")
+            PackagesDirectory.GlobFiles("*.nupkg")
                 .ForEach(x =>
                 {
-                    x.NotNullOrEmpty();
+                    x.NotNull();
 
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
@@ -129,23 +128,23 @@ class Build : NukeBuild
     Target PushGithubNuget => _ => _
         .DependsOn(Pack)
         .OnlyWhenStatic(() => IsTag && IsServerBuild)
-        .Requires(() => PersonalAccessToken)
+        .Requires(() => GithubToken)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
         {
             Log.Information("Running push to packages directory.");
 
-            Assert.True(!string.IsNullOrEmpty(PersonalAccessToken));
+            Assert.True(!string.IsNullOrEmpty(GithubToken));
 
-            GlobFiles(PackagesDirectory, "*.nupkg")
+            PackagesDirectory.GlobFiles("*.nupkg")
                 .ForEach(x =>
                 {
-                    x.NotNullOrEmpty();
+                    x.NotNull();
                     
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource($"https://nuget.pkg.github.com/{GitHubActions.Instance.RepositoryOwner}/index.json")
-                        .SetApiKey(PersonalAccessToken)
+                        .SetApiKey(GithubToken)
                         .EnableSkipDuplicate()
                     );
                 });

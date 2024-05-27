@@ -30,7 +30,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
-    ImportSecrets = new[] { nameof(NuGetApiKey), nameof(GithubToken) })]
+    ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -49,7 +49,6 @@ class Build : NukeBuild
     bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
 
     [Parameter] [Secret] readonly string NuGetApiKey;
-    [Parameter] [Secret] readonly string GithubToken;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -128,13 +127,10 @@ class Build : NukeBuild
     Target PushGithubNuget => _ => _
         .DependsOn(Pack)
         .OnlyWhenStatic(() => IsTag && IsServerBuild)
-        .Requires(() => GithubToken)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
         {
             Log.Information("Running push to packages directory.");
-
-            Assert.True(!string.IsNullOrEmpty(GithubToken));
 
             PackagesDirectory.GlobFiles("*.nupkg")
                 .ForEach(x =>
@@ -144,7 +140,7 @@ class Build : NukeBuild
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource($"https://nuget.pkg.github.com/{GitHubActions.Instance.RepositoryOwner}/index.json")
-                        .SetApiKey(GithubToken)
+                        .SetApiKey(GitHubActions.Instance.Token)
                         .EnableSkipDuplicate()
                     );
                 });

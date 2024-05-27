@@ -9,6 +9,7 @@ using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Utilities.Collections;
 using Serilog;
 using static Nuke.Common.EnvironmentInfo;
@@ -138,7 +139,7 @@ class Build : NukeBuild
                 .ForEach(x =>
                 {
                     x.NotNull();
-                    
+
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource($"https://nuget.pkg.github.com/{GitHubActions.Instance.RepositoryOwner}/index.json")

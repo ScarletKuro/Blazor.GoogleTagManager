@@ -22,7 +22,8 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Compile), nameof(Pack) })]
+    InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
+    EnableGitHubToken = true)]
 [GitHubActions(
     "release",
     GitHubActionsImage.UbuntuLatest,
@@ -30,6 +31,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
+    EnableGitHubToken = true,
     ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {

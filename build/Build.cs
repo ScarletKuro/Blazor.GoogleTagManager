@@ -23,8 +23,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Compile), nameof(Pack) },
-    EnableGitHubToken = true)]
+    InvokedTargets = new[] { nameof(Compile), nameof(Pack) })]
 [GitHubActions(
     "release",
     GitHubActionsImage.UbuntuLatest,
@@ -32,8 +31,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     OnPushTags = new[] { @"\d+\.\d+\.\d+" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Push), nameof(PushGithubNuget) },
-    EnableGitHubToken = true,
-    ImportSecrets = new[] { nameof(NuGetApiKey) })]
+    ImportSecrets = new[] { nameof(NuGetApiKey), nameof(PersonalAccessToken) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -52,6 +50,7 @@ class Build : NukeBuild
     bool IsTag => GitHubActions.Instance?.Ref?.StartsWith("refs/tags/") ?? false;
 
     [Parameter] [Secret] readonly string NuGetApiKey;
+    [Parameter] [Secret] readonly string PersonalAccessToken;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -130,6 +129,7 @@ class Build : NukeBuild
     Target PushGithubNuget => _ => _
         .DependsOn(Pack)
         .OnlyWhenStatic(() => IsTag && IsServerBuild)
+        .Requires(() => PersonalAccessToken)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
         {
@@ -140,10 +140,12 @@ class Build : NukeBuild
                 {
                     x.NotNull();
 
+                    Assert.True(!string.IsNullOrEmpty(PersonalAccessToken));
+
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource($"https://nuget.pkg.github.com/{GitHubActions.Instance.RepositoryOwner}/index.json")
-                        .SetApiKey(GitHubActions.Instance.Token)
+                        .SetApiKey(PersonalAccessToken)
                         .EnableSkipDuplicate()
                     );
                 });

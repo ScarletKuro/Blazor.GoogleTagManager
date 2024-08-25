@@ -4,6 +4,7 @@
 	  <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 	  <NoWarn>1591;1701;1702;SA1134</NoWarn>
 	  <Nullable>enable</Nullable>
+	  <LangVersion>latest</LangVersion>
 	  <IsTrimmable>true</IsTrimmable>
 	  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	</PropertyGroup>

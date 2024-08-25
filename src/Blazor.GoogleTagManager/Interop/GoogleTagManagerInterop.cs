@@ -78,6 +78,7 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
         }
     }
 
+    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
         if (_module is not null)

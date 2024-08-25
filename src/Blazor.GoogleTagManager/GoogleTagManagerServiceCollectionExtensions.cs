@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazor.GoogleTagManager;
 
+/// <summary>
+/// Provides extension methods for adding Google Tag Manager (GTM) services to an <see cref="IServiceCollection"/>.
+/// </summary>
 public static class GoogleTagManagerServiceCollectionExtensions
 {
     /// <summary>
@@ -38,7 +41,7 @@ public static class GoogleTagManagerServiceCollectionExtensions
     /// Adds Google Tag Manager (GTM) support. Use <see cref="IGoogleTagManager"/> to push data to <c>dataLayer</c> and/or <see cref="GoogleTagManagerPageViewTracker"/> to track page-views.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-    /// <param name="gtmId">GTM Id./</param>
+    /// <param name="gtmId">The Google Tag Manager ID.</param>
     /// <returns>The same instance of the <see cref="IServiceCollection"/> for chaining.</returns>
     public static IServiceCollection AddGoogleTagManager(this IServiceCollection services, string gtmId)
     {

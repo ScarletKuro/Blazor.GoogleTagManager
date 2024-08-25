@@ -31,5 +31,14 @@ namespace Blazor.GoogleTagManager
         /// Allows to print logs in the browser console. Do not use in production.
         /// </summary>
         public bool DebugToConsole { get; set; }
+
+        /// <summary>
+        ///     Specifies whether to import the JavaScript <c>'_content/Blazor.GoogleTagManager/GoogleTagManager.js'</c> file automatically.
+        ///     <para>
+        ///         If you disable this option, you must manually import your own JavaScript via the <c>script</c> tag.
+        ///     </para>
+        ///     Default is <c>true</c>.
+        /// </summary>
+        public bool ImportJsAutomatically { get; set; } = true;
     }
 }

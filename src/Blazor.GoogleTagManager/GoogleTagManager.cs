@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazor.GoogleTagManager.Interop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Options;
-using Microsoft.JSInterop;
 
 namespace Blazor.GoogleTagManager
 {
     /// <summary>
     /// Implementation for <see cref="IGoogleTagManager"/>.
     /// </summary>
-    public class GoogleTagManager : IGoogleTagManager, IAsyncDisposable
+    public class GoogleTagManager : IGoogleTagManager
     {
         private readonly GoogleTagManagerOptions _gtmOptions;
         private readonly NavigationManager _navigationManager;
-        private readonly IJSRuntime _jsRuntime;
-
-        private IJSObjectReference? _jsModule;
+        private readonly IGoogleTagManagerInterop _googleTagManagerInterop;
 
         /// <inheritdoc/>
         public bool IsInitialized { get; private set; }
@@ -28,11 +26,11 @@ namespace Blazor.GoogleTagManager
         public GoogleTagManager(
             IOptions<GoogleTagManagerOptions> gtmOptions,
             NavigationManager navigationManager,
-            IJSRuntime jsRuntime)
+            IGoogleTagManagerInterop googleTagManagerInterop)
         {
             _gtmOptions = gtmOptions.Value;
             _navigationManager = navigationManager;
-            _jsRuntime = jsRuntime;
+            _googleTagManagerInterop = googleTagManagerInterop;
         }
 
         /// <inheritdoc/>
@@ -60,9 +58,8 @@ namespace Blazor.GoogleTagManager
                 throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
             }
 
-            _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazor.GoogleTagManager/GoogleTagManager.js");
 
-            await _jsModule.InvokeVoidAsync("initialize", _gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
+            await _googleTagManagerInterop.InitializeAsync(_gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
 
             IsInitialized = true;
         }
@@ -76,10 +73,7 @@ namespace Blazor.GoogleTagManager
             }
 
             await InitializeAsync();
-            if (_jsModule is not null)
-            {
-                await _jsModule.InvokeVoidAsync("push", data, _gtmOptions.DebugToConsole);
-            }
+            await _googleTagManagerInterop.PushAsync(data, _gtmOptions.DebugToConsole);
         }
 
         /// <inheritdoc/>
@@ -91,17 +85,11 @@ namespace Blazor.GoogleTagManager
             }
 
             await InitializeAsync();
-            if (_jsModule is not null)
-            {
-                await _jsModule.InvokeVoidAsync("pushEvent", eventName, eventData, _gtmOptions.DebugToConsole);
-            }
+            await _googleTagManagerInterop.PushEventAsync(eventName, eventData, _gtmOptions.DebugToConsole);
         }
 
         /// <inheritdoc/>
-        public async Task PushPageViewAsync(object? additionalData = null)
-        {
-            await PushPageViewCoreAsync(_navigationManager.Uri, additionalData);
-        }
+        public Task PushPageViewAsync(object? additionalData = null) => PushPageViewCoreAsync(_navigationManager.Uri, additionalData);
 
         /// <inheritdoc/>
         async Task IGoogleTagManager.PushPageViewAsync(LocationChangedEventArgs? args)
@@ -130,23 +118,7 @@ namespace Blazor.GoogleTagManager
             }
 
             await InitializeAsync();
-            if (_jsModule is not null)
-            {
-                await _jsModule.InvokeVoidAsync("pushPageViewEvent", _gtmOptions.PageViewEventName, _gtmOptions.PageViewUrlVariableName, url, additionalData, _gtmOptions.DebugToConsole);
-            }
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-        }
-
-        protected virtual async ValueTask DisposeAsyncCore()
-        {
-            if (_jsModule is not null)
-            {
-                await _jsModule.DisposeAsync();
-            }
+            await _googleTagManagerInterop.PushPageViewAsync(_gtmOptions.PageViewEventName, _gtmOptions.PageViewUrlVariableName, url, additionalData, _gtmOptions.DebugToConsole);
         }
     }
 }

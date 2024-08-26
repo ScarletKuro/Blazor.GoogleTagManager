@@ -23,6 +23,12 @@ public class GoogleTagManager : IGoogleTagManager
     /// <inheritdoc/>
     public bool IsTackingEnabled { get; private set; } = true;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GoogleTagManager"/> class.
+    /// </summary>
+    /// <param name="gtmOptions">The options for Google Tag Manager.</param>
+    /// <param name="navigationManager">The navigation manager.</param>
+    /// <param name="googleTagManagerInterop">The interop service for Google Tag Manager.</param>
     public GoogleTagManager(
         IOptions<GoogleTagManagerOptions> gtmOptions,
         NavigationManager navigationManager,
@@ -57,7 +63,6 @@ public class GoogleTagManager : IGoogleTagManager
         {
             throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
         }
-
 
         await _googleTagManagerInterop.InitializeAsync(_gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
 

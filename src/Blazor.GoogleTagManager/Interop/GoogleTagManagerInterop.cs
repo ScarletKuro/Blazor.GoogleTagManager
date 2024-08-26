@@ -22,6 +22,7 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
         _jsRuntime = jsRuntime;
     }
 
+    /// <inheritdoc/>
     public async Task InitializeAsync(string gtmId, Dictionary<string, string> attributes, bool debugToConsole)
     {
         if (_options.Value.ImportJsAutomatically)
@@ -36,6 +37,7 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
         }
     }
 
+    /// <inheritdoc/>
     public async Task PushAsync(object data, bool debugToConsole)
     {
         if (_options.Value.ImportJsAutomatically)
@@ -50,6 +52,7 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
         }
     }
 
+    /// <inheritdoc/>
     public async Task PushEventAsync(string eventName, object? eventData, bool debugToConsole)
     {
         if (_options.Value.ImportJsAutomatically)
@@ -64,6 +67,7 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
         }
     }
 
+    /// <inheritdoc/>
     public async Task PushPageViewAsync(string pageViewEventName, string pageViewUrlVariableName, string url, object? additionalData, bool debugToConsole)
     {
         if (_options.Value.ImportJsAutomatically)

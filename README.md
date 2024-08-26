@@ -101,6 +101,7 @@ There is [debug](https://support.google.com/tagmanager/answer/6107056?hl=en) / [
 ## 📌Limitations / Not Supported Scenarios
 There is no support for the [Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp) out of the box, as that would require additional JavaScript modification.
 There is also no support for [renaming](https://developers.google.com/tag-platform/tag-manager/web/datalayer#tag-manager) the dataLayer object for the Google Tag Manager.
+
 However, starting from version **3.0.0**, you can disable automatic script import by setting `ImportJsAutomatically = false` via `GoogleTagManagerOptions`:
 ```CSharp
 builder.Services.AddGoogleTagManager(options => { options.GtmId = "GTM-XXXXXXX"; options.ImportJsAutomatically = false; });

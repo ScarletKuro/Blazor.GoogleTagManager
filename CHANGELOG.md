@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.0] - 2024-08-26
+### Remove
+- `IGoogleTagManagerInterop` from `IGoogleTagManager`.
+
+### Added
+- `IGoogleTagManagerInterop`
+- `ImportJsAutomatically` to `GoogleTagManagerOptions`.
+
 ## [2.0.0] - 2024-05-27
 #### Removed
 - Drop NET5 support.
@@ -36,8 +44,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Remove Havit.Core.
 
-[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..2.0.0
+[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..3.0.0
 
+[3.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/2.0.0..3.0.0
 [2.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.1..2.0.0
 [1.1.1]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.0..1.1.1
 [1.1.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.0.2..1.1.0

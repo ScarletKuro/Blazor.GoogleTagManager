@@ -1,5 +1,5 @@
-﻿export function initialize(GTMID, attributes, debugToConsole = false) {
-    (function (w, d, s, l, i, m, k) {
+﻿export function initialize(url, GTMID, attributes, debugToConsole = false) {
+    (function (w, d, s, l, u, i, m, k) {
     	w[l] = w[l] || [];
     	w[l].push({
     		"gtm.start": new Date().getTime(),
@@ -9,7 +9,7 @@
     		j = d.createElement(s),
             dl = l !== "dataLayer" ? "&l=" + l : "";
         j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        j.src = u + "/gtm.js?id=" + i + dl;
         for (const [key, value] of Object.entries(m)) {
             j.setAttribute(key, value);
         }
@@ -17,9 +17,9 @@
     	window.dataLayer.push({ event: "pageview" });
         window.isGTM = true;
         if (k) {
-            console.log("[GTM]: Configured with GtmId = " + i);
+            console.log("[GTM]: Configured with URL = " + u + ", and " + "GtmId = " + i);
         }
-    })(window, document, "script", "dataLayer", GTMID, attributes, debugToConsole);
+    })(window, document, "script", "dataLayer", url, GTMID, attributes, debugToConsole);
 }
 
 export function push(data, debugToConsole = false) {

@@ -11,11 +11,12 @@ public interface IGoogleTagManagerInterop
     /// <summary>
     /// Initializes the Google Tag Manager with the specified GTM ID, attributes, and debug option.
     /// </summary>
+    /// <param name="url">URL of the Google Tag Manager script.</param>
     /// <param name="gtmId">The Google Tag Manager ID.</param>
     /// <param name="attributes">A dictionary of attributes to initialize with.</param>
     /// <param name="debugToConsole">Indicates whether to output debug information to the console.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task InitializeAsync(string gtmId, Dictionary<string, string> attributes, bool debugToConsole);
+    Task InitializeAsync(string url, string gtmId, Dictionary<string, string> attributes, bool debugToConsole);
 
     /// <summary>
     /// Pushes generic data to the GTM data layer.

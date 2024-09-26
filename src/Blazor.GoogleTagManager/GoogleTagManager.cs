@@ -40,16 +40,10 @@ public class GoogleTagManager : IGoogleTagManager
     }
 
     /// <inheritdoc/>
-    public void EnableTracking()
-    {
-        IsTackingEnabled = true;
-    }
+    public void EnableTracking() => IsTackingEnabled = true;
 
     /// <inheritdoc/>
-    public void DisableTracking()
-    {
-        IsTackingEnabled = false;
-    }
+    public void DisableTracking() => IsTackingEnabled = false;
 
     /// <inheritdoc/>
     public async Task InitializeAsync()
@@ -59,12 +53,17 @@ public class GoogleTagManager : IGoogleTagManager
             return;
         }
 
+        if (string.IsNullOrEmpty(_gtmOptions.Url))
+        {
+            throw new ArgumentException("URL cannot be empty.", nameof(_gtmOptions.Url));
+        }
+
         if (string.IsNullOrEmpty(_gtmOptions.GtmId))
         {
             throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
         }
 
-        await _googleTagManagerInterop.InitializeAsync(_gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
+        await _googleTagManagerInterop.InitializeAsync(_gtmOptions.Url, _gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
 
         IsInitialized = true;
     }

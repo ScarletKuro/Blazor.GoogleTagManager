@@ -6,8 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.0] - 2024-12-01
+### Added
+- `Url` property to `GoogleTagManagerOptions`.
+- `url` parameter in `IGoogleTagManagerInterop.InitializeAsync`.
+
 ## [3.0.0] - 2024-08-26
-### Remove
+### Removed
 - `IGoogleTagManagerInterop` from `IGoogleTagManager`.
 
 ### Added
@@ -44,8 +49,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Remove Havit.Core.
 
-[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..3.0.0
-
+[Unreleased]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/HEAD..4.0.0
+[4.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/3.0.0..4.0.0
 [3.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/2.0.0..3.0.0
 [2.0.0]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.1..2.0.0
 [1.1.1]: https://github.com/ScarletKuro/Blazor.GoogleTagManager/compare/1.1.0..1.1.1

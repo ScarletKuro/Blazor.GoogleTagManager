@@ -6,6 +6,9 @@ using System;
 
 namespace Blazor.GoogleTagManager.Interop;
 
+/// <summary>
+/// Provides interop methods for Google Tag Manager.
+/// </summary>
 internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposable
 {
     private readonly IJSRuntime _jsRuntime;
@@ -13,9 +16,14 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
     private readonly IOptions<GoogleTagManagerOptions> _options;
 
     private Task<IJSObjectReference> Module => _module ??= _jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", ["./_content/Blazor.GoogleTagManager/GoogleTagManager.js"])
+            "import", "./_content/Blazor.GoogleTagManager/GoogleTagManager.js")
         .AsTask();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GoogleTagManagerInterop"/> class.
+    /// </summary>
+    /// <param name="gtmOptions">The Google Tag Manager options.</param>
+    /// <param name="jsRuntime">The JavaScript runtime.</param>
     public GoogleTagManagerInterop(IOptions<GoogleTagManagerOptions> gtmOptions, IJSRuntime jsRuntime)
     {
         _options = gtmOptions;
@@ -23,17 +31,17 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
     }
 
     /// <inheritdoc/>
-    public async Task InitializeAsync(string gtmId, Dictionary<string, string> attributes, bool debugToConsole)
+    public async Task InitializeAsync(string url, string gtmId, Dictionary<string, string> attributes, bool debugToConsole)
     {
         if (_options.Value.ImportJsAutomatically)
         {
             var module = await Module;
 
-            await module.InvokeVoidAsync("initialize", gtmId, attributes, debugToConsole);
+            await module.InvokeVoidAsync("initialize", url, gtmId, attributes, debugToConsole);
         }
         else
         {
-            await _jsRuntime.InvokeVoidAsync("initialize", gtmId, attributes, debugToConsole);
+            await _jsRuntime.InvokeVoidAsync("initialize", url, gtmId, attributes, debugToConsole);
         }
     }
 

@@ -31,17 +31,17 @@ internal class GoogleTagManagerInterop : IGoogleTagManagerInterop, IAsyncDisposa
     }
 
     /// <inheritdoc/>
-    public async Task InitializeAsync(string url, string gtmId, Dictionary<string, string> attributes, bool debugToConsole)
+    public async Task InitializeAsync(GoogleTagManagerInitializationOptions options)
     {
         if (_options.Value.ImportJsAutomatically)
         {
             var module = await Module;
 
-            await module.InvokeVoidAsync("initialize", url, gtmId, attributes, debugToConsole);
+            await module.InvokeVoidAsync("initialize", options);
         }
         else
         {
-            await _jsRuntime.InvokeVoidAsync("initialize", url, gtmId, attributes, debugToConsole);
+            await _jsRuntime.InvokeVoidAsync("initialize", options.Url, options.GtmId, options.Attributes, options.DebugToConsole, options.QueryParameters);
         }
     }
 

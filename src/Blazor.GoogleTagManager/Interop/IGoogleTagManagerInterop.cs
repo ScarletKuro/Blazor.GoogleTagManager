@@ -9,14 +9,11 @@ namespace Blazor.GoogleTagManager.Interop;
 public interface IGoogleTagManagerInterop
 {
     /// <summary>
-    /// Initializes the Google Tag Manager with the specified GTM ID, attributes, and debug option.
+    /// Initializes the Google Tag Manager with the specified options.
     /// </summary>
-    /// <param name="url">URL of the Google Tag Manager script.</param>
-    /// <param name="gtmId">The Google Tag Manager ID.</param>
-    /// <param name="attributes">A dictionary of attributes to initialize with.</param>
-    /// <param name="debugToConsole">Indicates whether to output debug information to the console.</param>
+    /// <param name="options">The initialization options.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task InitializeAsync(string url, string gtmId, Dictionary<string, string> attributes, bool debugToConsole);
+    Task InitializeAsync(GoogleTagManagerInitializationOptions options);
 
     /// <summary>
     /// Pushes generic data to the GTM data layer.

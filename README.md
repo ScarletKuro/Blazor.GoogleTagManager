@@ -69,6 +69,24 @@ then in your script you will see following
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX" data-consent-category="google"></script>
 ```
 Other useful links for consent settings: [link1](https://support.google.com/tagmanager/answer/10718549) [link2](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
+### Query Parameters
+You can add query parameters to the Google Tag Manager script URL. This is useful for environment-specific values such as `gtm_auth` and `gtm_preview`.
+```CSharp
+builder.Services.AddGoogleTagManager(options =>
+{
+      options.GtmId = "GTM-XXXXXXX";
+      options.QueryParameters = new Dictionary<string, string>
+      {
+            { "gtm_auth", "example-auth-token" },
+            { "gtm_preview", "env-3" }
+      };
+});
+```
+then in your script you will see following
+```HTML
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX&gtm_auth=example-auth-token&gtm_preview=env-3"></script>
+```
+Use `Attributes` for HTML attributes on the `<script>` tag and `QueryParameters` for values that must be appended to the GTM request URL.
 ### Debug to console
 You can enable debugging to the browser console. This helps to see whatever the library is initialized properly.
 
@@ -106,5 +124,5 @@ However, starting from version **3.0.0**, you can disable automatic script impor
 ```CSharp
 builder.Services.AddGoogleTagManager(options => { options.GtmId = "GTM-XXXXXXX"; options.ImportJsAutomatically = false; });
 ```
-And manually import your own script using a `<script>` tag in `index.html` or `App.razor`. This allows you to add a nonce for CSP, rename the dataLayer, and modify the script however you want.
+And manually import your own script using a `<script>` tag in `index.html` or `App.razor`. This allows you to add a nonce for CSP, rename the dataLayer, and handle other bootstrap customizations that are outside the built-in URL and attribute options.
 

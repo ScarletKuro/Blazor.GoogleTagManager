@@ -1,25 +1,57 @@
-﻿export function initialize(url, GTMID, attributes, debugToConsole = false) {
-    (function (w, d, s, l, u, i, m, k) {
-    	w[l] = w[l] || [];
-    	w[l].push({
-    		"gtm.start": new Date().getTime(),
-    		event: "gtm.js"
+export function buildScriptUrl(url, GTMID, queryParameters = {}, dataLayerName = "dataLayer") {
+    const additionalParameters = Object.entries(queryParameters ?? {})
+        .filter(([key, value]) => key && value)
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join("&");
+    const dataLayerParameter = dataLayerName !== "dataLayer" ? "&l=" + dataLayerName : "";
+    const queryString = additionalParameters ? "&" + additionalParameters : "";
+
+    return `${url}/gtm.js?id=${GTMID}${dataLayerParameter}${queryString}`;
+}
+
+function normalizeInitializationOptions(urlOrOptions, GTMID, attributes, debugToConsole = false, queryParameters = {}) {
+    if (typeof urlOrOptions === "object" && urlOrOptions !== null) {
+        return {
+            url: urlOrOptions.url ?? urlOrOptions.Url,
+            GTMID: urlOrOptions.gtmId ?? urlOrOptions.GtmId,
+            attributes: urlOrOptions.attributes ?? urlOrOptions.Attributes ?? {},
+            debugToConsole: urlOrOptions.debugToConsole ?? urlOrOptions.DebugToConsole ?? false,
+            queryParameters: urlOrOptions.queryParameters ?? urlOrOptions.QueryParameters ?? {}
+        };
+    }
+
+    return {
+        url: urlOrOptions,
+        GTMID,
+        attributes: attributes ?? {},
+        debugToConsole,
+        queryParameters: queryParameters ?? {}
+    };
+}
+
+export function initialize(urlOrOptions, GTMID, attributes, debugToConsole = false, queryParameters = {}) {
+    const initializationOptions = normalizeInitializationOptions(urlOrOptions, GTMID, attributes, debugToConsole, queryParameters);
+
+    (function (w, d, s, l, u, i, m, k, q) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
         });
         var f = d.getElementsByTagName("head")[0],
-    		j = d.createElement(s),
-            dl = l !== "dataLayer" ? "&l=" + l : "";
+            j = d.createElement(s);
         j.async = true;
-        j.src = u + "/gtm.js?id=" + i + dl;
+        j.src = buildScriptUrl(u, i, q, l);
         for (const [key, value] of Object.entries(m)) {
             j.setAttribute(key, value);
         }
         f.appendChild(j, f);
-    	window.dataLayer.push({ event: "pageview" });
+        window.dataLayer.push({ event: "pageview" });
         window.isGTM = true;
         if (k) {
             console.log("[GTM]: Configured with URL = " + u + ", and " + "GtmId = " + i);
         }
-    })(window, document, "script", "dataLayer", url, GTMID, attributes, debugToConsole);
+    })(window, document, "script", "dataLayer", initializationOptions.url, initializationOptions.GTMID, initializationOptions.attributes, initializationOptions.debugToConsole, initializationOptions.queryParameters);
 }
 
 export function push(data, debugToConsole = false) {
@@ -30,18 +62,18 @@ export function push(data, debugToConsole = false) {
 }
 
 export function pushEvent(eventName, eventData, debugToConsole = false) {
-	if (eventData === null) {
-		eventData = new Object();
-	}
-	eventData['event'] = eventName;
+    if (eventData === null) {
+        eventData = new Object();
+    }
+    eventData["event"] = eventName;
     push(eventData, debugToConsole);
 }
 
 export function pushPageViewEvent(eventName, urlVariableName, url, eventData, debugToConsole = false) {
-	if (eventData === null) {
-		eventData = new Object();
-	}
-	eventData[urlVariableName] = url;
-	eventData['event'] = eventName;
+    if (eventData === null) {
+        eventData = new Object();
+    }
+    eventData[urlVariableName] = url;
+    eventData["event"] = eventName;
     push(eventData, debugToConsole);
 }

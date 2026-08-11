@@ -31,6 +31,13 @@ public class GoogleTagManagerOptions
     public Dictionary<string, string> Attributes { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets additional query parameters for the Google Tag Manager script URL.
+    /// This can be used for values such as <c>gtm_auth</c> and <c>gtm_preview</c>.
+    /// The default value is an empty dictionary.
+    /// </summary>
+    public Dictionary<string, string> QueryParameters { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the name of the event pushed when a page-view is tracked.
     /// The default value is <c>"virtualPageView"</c>.
     /// </summary>

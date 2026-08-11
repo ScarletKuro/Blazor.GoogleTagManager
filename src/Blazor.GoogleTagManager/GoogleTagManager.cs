@@ -63,7 +63,14 @@ public class GoogleTagManager : IGoogleTagManager
             throw new ArgumentException("GTM Id cannot be empty.", nameof(_gtmOptions.GtmId));
         }
 
-        await _googleTagManagerInterop.InitializeAsync(_gtmOptions.Url, _gtmOptions.GtmId, _gtmOptions.Attributes, _gtmOptions.DebugToConsole);
+        await _googleTagManagerInterop.InitializeAsync(new GoogleTagManagerInitializationOptions
+        {
+            Url = _gtmOptions.Url,
+            GtmId = _gtmOptions.GtmId,
+            Attributes = _gtmOptions.Attributes,
+            QueryParameters = _gtmOptions.QueryParameters,
+            DebugToConsole = _gtmOptions.DebugToConsole
+        });
 
         IsInitialized = true;
     }

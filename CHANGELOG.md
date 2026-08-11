@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `QueryParameters` property to `GoogleTagManagerOptions` for GTM script URL parameters such as `gtm_auth` and `gtm_preview`.
 
 ## [4.0.0] - 2024-12-01
 ### Added

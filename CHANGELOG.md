@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `QueryParameters` property to `GoogleTagManagerOptions` for GTM script URL parameters such as `gtm_auth` and `gtm_preview`.
+- `net9.0` and `net10.0` target frameworks.
 
 ## [4.0.0] - 2024-12-01
 ### Added

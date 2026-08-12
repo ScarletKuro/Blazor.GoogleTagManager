@@ -31,17 +31,24 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
           cache: true
           cache-dependency-path: |
             src/**/*.csproj
             version.json
 
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Restore
-        run: dotnet restore src/Blazor.GoogleTagManager.sln
+        run: dotnet restore src/Blazor.GoogleTagManager.slnx
+
+      - name: Run Bun tests
+        working-directory: src/Blazor.GoogleTagManager
+        run: bun test ./assets/GoogleTagManager.test.ts
 
       - name: Build
-        run: dotnet build src/Blazor.GoogleTagManager.sln -c Release --no-restore
+        run: dotnet build src/Blazor.GoogleTagManager.slnx -c Release --no-restore
 
       - name: Pack
         run: dotnet pack src/Blazor.GoogleTagManager/Blazor.GoogleTagManager.csproj -c Release --no-build -o artifacts/packages

@@ -56,7 +56,7 @@ public sealed class GoogleTagManagerSmokeTests : IAsyncLifetime
 
         try
         {
-            await WaitForHostAsync(_baseUrl);
+            await WaitForHostAsync($"{_baseUrl}/ready");
         }
         catch
         {

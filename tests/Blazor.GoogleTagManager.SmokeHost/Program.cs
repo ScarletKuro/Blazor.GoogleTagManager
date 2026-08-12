@@ -15,6 +15,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.MapGet("/ready", () => Results.Ok(new { status = "ready" }));
 app.MapGet("/gtm.js", () => Results.Text("window.__smokeGtmLoaded = true;", "application/javascript"));
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

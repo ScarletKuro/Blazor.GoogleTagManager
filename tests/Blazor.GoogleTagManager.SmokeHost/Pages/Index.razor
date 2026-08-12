@@ -1,0 +1,13 @@
+@page "/"
+@inject IGoogleTagManager GoogleTagManager
+
+<h1>Smoke Test</h1>
+<p id="status">ready</p>
+<button id="push-event" @onclick="PushEventAsync">Push Event</button>
+
+@code {
+    private async Task PushEventAsync()
+    {
+        await GoogleTagManager.PushAsync(new { @event = "smoke_click" });
+    }
+}

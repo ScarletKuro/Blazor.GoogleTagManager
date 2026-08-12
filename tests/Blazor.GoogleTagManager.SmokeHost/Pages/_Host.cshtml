@@ -1,0 +1,17 @@
+@page "/"
+@namespace Blazor.GoogleTagManager.SmokeHost.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blazor.GoogleTagManager Smoke Host</title>
+    <base href="~/" />
+</head>
+<body>
+    <component type="typeof(App)" render-mode="Server" />
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

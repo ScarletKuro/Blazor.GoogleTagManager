@@ -36,6 +36,16 @@ jobs:
       - name: Build
         run: dotnet build src/Blazor.GoogleTagManager.slnx -c Release --no-restore
 
+      - name: Build smoke tests
+        run: dotnet build tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj -c Release
+
+      - name: Install Playwright browsers
+        shell: pwsh
+        run: tests/Blazor.GoogleTagManager.SmokeTests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium
+
+      - name: Run smoke tests
+        run: dotnet test tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj -c Release --no-build
+
       - name: Pack
         run: dotnet pack src/Blazor.GoogleTagManager/Blazor.GoogleTagManager.csproj -c Release --no-build -o artifacts/packages
 

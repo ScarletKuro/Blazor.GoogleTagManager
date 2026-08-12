@@ -45,6 +45,45 @@ afterEach(() => {
     console.log = previousConsoleLog;
 });
 
+function createScriptElement(tagName: string): TestScriptElement
+{
+    return {
+        tagName,
+        attributes: {},
+        setAttribute(name, value) {
+            this.attributes[name] = value;
+        }
+    };
+}
+
+function setupDocument(onAppendChild?: (node: TestScriptElement) => void): void
+{
+    runtime.document = {
+        createElement(tagName) {
+            return createScriptElement(tagName);
+        },
+        getElementsByTagName(tagName) {
+            expect(tagName).toBe("head");
+
+            return [{
+                appendChild(node) {
+                    onAppendChild?.(node);
+                }
+            }];
+        }
+    };
+}
+
+function createConsoleSpy(): string[]
+{
+    const logs: string[] = [];
+    console.log = ((message: string) => {
+        logs.push(message);
+    }) as typeof console.log;
+
+    return logs;
+}
+
 describe("buildScriptUrl", () => {
     test("uses the default GTM host format when no query parameters are provided", () => {
         const scriptUrl = gtmModule.buildScriptUrl("https://www.googletagmanager.com", "GTM-XXXXXXX");
@@ -87,26 +126,9 @@ describe("initialize", () => {
         let appendedScript: TestScriptElement | undefined;
 
         runtime.window = {};
-        runtime.document = {
-            createElement(tagName) {
-                return {
-                    tagName,
-                    attributes: {},
-                    setAttribute(name, value) {
-                        this.attributes[name] = value;
-                    }
-                };
-            },
-            getElementsByTagName(tagName) {
-                expect(tagName).toBe("head");
-
-                return [{
-                    appendChild(node) {
-                        appendedScript = node;
-                    }
-                }];
-            }
-        };
+        setupDocument((node) => {
+            appendedScript = node;
+        });
 
         gtmModule.initialize(
             "https://www.googletagmanager.com",
@@ -122,24 +144,9 @@ describe("initialize", () => {
     test("accepts an options object payload and bootstraps the dataLayer", () => {
         let appendedScript: TestScriptElement | undefined;
         runtime.window = {};
-        runtime.document = {
-            createElement(tagName) {
-                return {
-                    tagName,
-                    attributes: {},
-                    setAttribute(name, value) {
-                        this.attributes[name] = value;
-                    }
-                };
-            },
-            getElementsByTagName() {
-                return [{
-                    appendChild(node) {
-                        appendedScript = node;
-                    }
-                }];
-            }
-        };
+        setupDocument((node) => {
+            appendedScript = node;
+        });
 
         gtmModule.initialize({
             url: "https://www.googletagmanager.com",
@@ -159,34 +166,16 @@ describe("initialize", () => {
     });
 
     test("writes debug output when enabled", () => {
-        const logs: string[] = [];
-        console.log = ((message: string) => {
-            logs.push(message);
-        }) as typeof console.log;
+        const logs = createConsoleSpy();
 
         runtime.window = {};
-        runtime.document = {
-            createElement(tagName) {
-                return {
-                    tagName,
-                    attributes: {},
-                    setAttribute(name, value) {
-                        this.attributes[name] = value;
-                    }
-                };
-            },
-            getElementsByTagName() {
-                return [{
-                    appendChild() {
-                    }
-                }];
-            }
-        };
+        setupDocument();
 
         gtmModule.initialize("https://www.googletagmanager.com", "GTM-DEBUG", {}, true, {});
 
         expect(logs).toEqual(["[GTM]: Configured with URL = https://www.googletagmanager.com, and GtmId = GTM-DEBUG"]);
     });
+
 });
 
 describe("push helpers", () => {
@@ -199,10 +188,7 @@ describe("push helpers", () => {
     });
 
     test("pushEvent injects the event name and logs only when enabled", () => {
-        const logs: string[] = [];
-        console.log = ((message: string) => {
-            logs.push(message);
-        }) as typeof console.log;
+        const logs = createConsoleSpy();
         runtime.window = { dataLayer: [] };
 
         gtmModule.pushEvent("button_click_sample_event", { category: "cta" }, true);
@@ -225,4 +211,5 @@ describe("push helpers", () => {
             event: "virtualPageView"
         }]);
     });
+
 });

@@ -71,7 +71,7 @@
 	        BeforeTargets="DispatchToInnerBuilds;PreBuildEvent"
 	        Condition="'$(RunBunTargets)' == 'true'">
 	  <BunRunTask Command="build"
-	              Arguments="./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm"
+	              Arguments="./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify"
 	              WorkingDirectory="$(MSBuildProjectDirectory)"
 	              RuntimeDirectory="$(BunRuntimeDirectory)"
 	              BunRuntimeDownload="$(BunRuntimeDownload)"

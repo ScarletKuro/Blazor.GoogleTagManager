@@ -1,4 +1,5 @@
-type QueryParameters = Record<string, string | null | undefined>;
+type QueryParameterValue = string | null | undefined;
+type QueryParameters = Record<string, QueryParameterValue>;
 type ScriptAttributes = Record<string, string>;
 type EventData = Record<string, unknown>;
 
@@ -13,7 +14,7 @@ type InitializationOptionsInput = {
     DebugToConsole?: boolean;
     queryParameters?: QueryParameters;
     QueryParameters?: QueryParameters;
-};
+}
 
 type NormalizedInitializationOptions = {
     url: string | undefined;
@@ -22,6 +23,13 @@ type NormalizedInitializationOptions = {
     debugToConsole: boolean;
     queryParameters: QueryParameters;
 };
+
+declare global {
+    interface Window {
+        dataLayer?: EventData[];
+        isGTM?: boolean;
+    }
+}
 
 export function buildScriptUrl(
     url: string,
@@ -65,6 +73,13 @@ function normalizeInitializationOptions(
     };
 }
 
+export function initialize(options: InitializationOptionsInput): void;
+export function initialize(
+    url: string,
+    GTMID: string,
+    attributes?: ScriptAttributes,
+    debugToConsole?: boolean,
+    queryParameters?: QueryParameters): void;
 export function initialize(
     urlOrOptions: string | InitializationOptionsInput,
     GTMID?: string,
@@ -79,39 +94,31 @@ export function initialize(
         debugToConsole,
         queryParameters);
 
-    (function (w, d, s, l, u, i, m, k, q) {
-        w[l] = w[l] || [];
-        w[l].push({
-            "gtm.start": new Date().getTime(),
-            event: "gtm.js"
-        });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        "gtm.start": Date.now(),
+        event: "gtm.js"
+    });
 
-        const head = d.getElementsByTagName("head")[0];
-        const script = d.createElement(s);
-        script.async = true;
-        script.src = buildScriptUrl(u, i, q, l);
-
-        for (const [key, value] of Object.entries(m)) {
-            script.setAttribute(key, value);
-        }
-
-        head.appendChild(script, head);
-        window.dataLayer.push({ event: "pageview" });
-        window.isGTM = true;
-
-        if (k) {
-            console.log(`[GTM]: Configured with URL = ${u}, and GtmId = ${i}`);
-        }
-    })(
-        window,
-        document,
-        "script",
-        "dataLayer",
-        initializationOptions.url,
-        initializationOptions.GTMID,
-        initializationOptions.attributes,
-        initializationOptions.debugToConsole,
+    const head = document.getElementsByTagName("head")[0];
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = buildScriptUrl(
+        initializationOptions.url as string,
+        initializationOptions.GTMID as string,
         initializationOptions.queryParameters);
+
+    for (const [key, value] of Object.entries(initializationOptions.attributes)) {
+        script.setAttribute(key, value);
+    }
+
+    head.appendChild(script, head);
+    window.dataLayer.push({ event: "pageview" });
+    window.isGTM = true;
+
+    if (initializationOptions.debugToConsole) {
+        console.log(`[GTM]: Configured with URL = ${initializationOptions.url}, and GtmId = ${initializationOptions.GTMID}`);
+    }
 }
 
 export function push(data: EventData, debugToConsole = false)

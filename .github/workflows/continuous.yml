@@ -27,14 +27,14 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Restore
-        run: dotnet restore src/Blazor.GoogleTagManager.slnx
+        run: dotnet restore Blazor.GoogleTagManager.slnx
 
       - name: Run Bun tests
         working-directory: src/Blazor.GoogleTagManager
         run: bun test ./assets/GoogleTagManager.test.ts
 
       - name: Build
-        run: dotnet build src/Blazor.GoogleTagManager.slnx -c Release --no-restore
+        run: dotnet build Blazor.GoogleTagManager.slnx -c Release --no-restore
 
       - name: Build smoke tests
         run: dotnet build tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj -c Release

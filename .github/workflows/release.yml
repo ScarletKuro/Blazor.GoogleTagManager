@@ -66,6 +66,22 @@ jobs:
       - name: Pack
         run: dotnet pack src/Blazor.GoogleTagManager/Blazor.GoogleTagManager.csproj -c Release --no-build -o artifacts/packages
 
+      - name: Verify package contains static web asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t packages < <(find artifacts/packages -maxdepth 1 -type f -name '*.nupkg' -print)
+
+          if [[ "${#packages[@]}" -ne 1 ]]; then
+            echo "Expected exactly one .nupkg package, found ${#packages[@]}."
+            exit 1
+          fi
+
+          if ! unzip -Z1 "${packages[0]}" | grep -Fxq 'staticwebassets/GoogleTagManager.js'; then
+            echo "Package ${packages[0]} does not contain staticwebassets/GoogleTagManager.js."
+            exit 1
+          fi
+
       - name: NuGet login
         id: nuget-login
         uses: NuGet/login@v1

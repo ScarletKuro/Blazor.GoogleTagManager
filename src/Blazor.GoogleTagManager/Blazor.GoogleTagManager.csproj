@@ -56,27 +56,17 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 	  <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />
-	  <PackageReference Include="Scarlet.Bun.MSBuild" Version="1.0.0-preview.3" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+	  <PackageReference Include="Scarlet.Bun.MSBuild" Version="1.1.0" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
 	</ItemGroup>
 
 	<PropertyGroup>
 	  <RunBunTargets Condition="'$(DesignTimeBuild)' != 'true' AND ('$(TargetFrameworks)' == '' OR '$(TargetFramework)' == '')">true</RunBunTargets>
 	</PropertyGroup>
 
-	<UsingTask TaskName="Scarlet.Bun.MSBuild.BunRunTask"
-	           AssemblyFile="$(NuGetPackageRoot)scarlet.bun.msbuild\1.0.0-preview.3\tools\netstandard2.0\Scarlet.Bun.MSBuild.dll"
-	           Condition="Exists('$(NuGetPackageRoot)scarlet.bun.msbuild\1.0.0-preview.3\tools\netstandard2.0\Scarlet.Bun.MSBuild.dll')" />
-
-	<Target Name="BunBuild"
-	        BeforeTargets="DispatchToInnerBuilds;PreBuildEvent"
-	        Condition="'$(RunBunTargets)' == 'true'">
-	  <BunRunTask Command="build"
-	              Arguments="./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify"
-	              WorkingDirectory="$(MSBuildProjectDirectory)"
-	              RuntimeDirectory="$(BunRuntimeDirectory)"
-	              BunRuntimeDownload="$(BunRuntimeDownload)"
-	              BunVersionDownload="$(BunVersionDownload)"
-	              DownloadMutexTimeoutSeconds="$(BunDownloadMutexTimeoutSeconds)" />
+	<Target Name="BunBuild" BeforeTargets="DispatchToInnerBuilds;PreBuildEvent" Condition="'$(RunBunTargets)' == 'true'">
+	  <MSBuild Projects="$(MSBuildProjectFullPath)"
+	           Targets="Bun"
+	           Properties="BunCommand=build;BunArguments=./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify;BunWorkingDirectory=$(MSBuildProjectDirectory)" />
 	</Target>
 
 </Project>

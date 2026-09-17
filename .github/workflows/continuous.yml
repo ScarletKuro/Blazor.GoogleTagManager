@@ -21,6 +21,7 @@ jobs:
           cache: true
           cache-dependency-path: |
             src/**/*.csproj
+            tests/**/*.csproj
             version.json
 
       - name: Install Bun
@@ -29,9 +30,9 @@ jobs:
       - name: Restore
         run: dotnet restore Blazor.GoogleTagManager.slnx
 
-      - name: Run Bun tests
+      - name: Run Bun tests with coverage
         working-directory: src/Blazor.GoogleTagManager
-        run: bun test ./assets/GoogleTagManager.test.ts
+        run: bun test --coverage --coverage-reporter=text --coverage-reporter=lcov --coverage-dir ../../artifacts/coverage/bun ./assets/GoogleTagManager.test.ts
 
       - name: Build
         run: dotnet build Blazor.GoogleTagManager.slnx -c Release --no-restore
@@ -46,8 +47,31 @@ jobs:
         shell: pwsh
         run: tests/Blazor.GoogleTagManager.SmokeTests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium
 
-      - name: Run smoke tests
-        run: dotnet test tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj -c Release --no-build
+      - name: Run smoke tests with coverage
+        run: >
+          dotnet test tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj
+          -c Release
+          --no-build
+          --collect:"XPlat Code Coverage"
+          --results-directory artifacts/coverage/dotnet
+          --
+          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Upload Bun coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: artifacts/coverage/bun/lcov.info
+          flags: bun
+          fail_ci_if_error: true
+
+      - name: Upload .NET coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: artifacts/coverage/dotnet
+          flags: dotnet
+          fail_ci_if_error: true
 
       - name: Pack
         run: dotnet pack src/Blazor.GoogleTagManager/Blazor.GoogleTagManager.csproj -c Release --no-build -o artifacts/packages

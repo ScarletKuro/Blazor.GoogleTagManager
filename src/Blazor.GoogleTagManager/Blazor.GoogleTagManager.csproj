@@ -56,15 +56,13 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" PrivateAssets="All" />
 	  <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />
-	  <PackageReference Include="Scarlet.Bun.MSBuild" Version="1.1.0" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+	  <PackageReference Include="Scarlet.Bun.MSBuild" Version="1.3.0" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
 	</ItemGroup>
 
-	<PropertyGroup>
-	  <RunBunTargets Condition="'$(DesignTimeBuild)' != 'true' AND ('$(TargetFrameworks)' == '' OR '$(TargetFramework)' == '')">true</RunBunTargets>
-	</PropertyGroup>
-
-	<Target Name="BunBuild" BeforeTargets="DispatchToInnerBuilds;PreBuildEvent" Condition="'$(RunBunTargets)' == 'true'">
-	  <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Bun" Properties="BunCommand=build;BunArguments=./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify;BunWorkingDirectory=$(MSBuildProjectDirectory)" />
-	</Target>
+	<ItemGroup>
+	  <BunBeforeStaticWebAssets Include="build">
+	    <Arguments>./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify</Arguments>
+	  </BunBeforeStaticWebAssets>
+	</ItemGroup>
 
 </Project>

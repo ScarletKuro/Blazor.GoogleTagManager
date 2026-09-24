@@ -2,7 +2,6 @@ using System.Net.Sockets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Playwright;
-using Xunit;
 
 namespace Blazor.GoogleTagManager.SmokeTests;
 
@@ -46,7 +45,7 @@ public sealed class GoogleTagManagerSmokeTests : IAsyncLifetime
         Assert.Contains("smoke_click", updatedEvents);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var port = GetFreeTcpPort();
         _baseUrl = $"http://127.0.0.1:{port}";
@@ -64,10 +63,10 @@ public sealed class GoogleTagManagerSmokeTests : IAsyncLifetime
         }
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _factory?.Dispose();
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     private static async Task WaitForHostAsync(string baseUrl)

@@ -52,10 +52,22 @@ jobs:
           dotnet test tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj
           -c Release
           --no-build
-          --collect:"XPlat Code Coverage"
-          --results-directory artifacts/coverage/dotnet
-          --
-          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          --coverage
+          --coverage-output-format cobertura
+          --results-directory TestResults
+
+      - name: Collect .NET coverage reports
+        if: always()
+        run: |
+          mkdir -p artifacts/coverage/dotnet
+          i=0
+          for f in TestResults/*.cobertura.xml; do
+            [ -e "$f" ] || continue
+            i=$((i + 1))
+            cp "$f" "artifacts/coverage/dotnet/coverage-$i.cobertura.xml"
+          done
+          test "$i" -gt 0
+          ls -l artifacts/coverage/dotnet
 
       - name: Upload Bun coverage to Codecov
         uses: codecov/codecov-action@v7

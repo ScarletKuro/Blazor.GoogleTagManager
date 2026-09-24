@@ -5,8 +5,9 @@
 [![Nuget](https://img.shields.io/nuget/v/Blazor.GoogleTagManager?color=ff4081&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 [![Nuget](https://img.shields.io/nuget/dt/Blazor.GoogleTagManager?color=ff4081&label=nuget%20downloads&logo=nuget)](https://www.nuget.org/packages/Blazor.GoogleTagManager/)
 
-This is a fork of [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager) but without Havit.Core, since for Blazor WASM every byte counts.
-This library is trim friendly.
+Blazor.GoogleTagManager is a lightweight, trim-friendly Google Tag Manager integration for Blazor Server and Blazor WebAssembly.
+
+The project was originally based on [Havit.Blazor.GoogleTagManager](https://github.com/havit/Havit.Blazor/tree/master/Havit.Blazor.GoogleTagManager), but it is no longer just a dependency-stripped fork. It is independently maintained and includes additional functionality such as automatic JavaScript module import, script attributes, GTM URL query parameters, debug logging, smoke-tested packaging, and an opt-out path for custom CSP/dataLayer bootstrapping.
 
 ## 🎉 Release Notes
 ### [Changelog](https://github.com/ScarletKuro/Blazor.GoogleTagManager/blob/main/CHANGELOG.md)

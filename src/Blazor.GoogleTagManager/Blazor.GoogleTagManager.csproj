@@ -60,6 +60,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <!-- Register the generated module before it exists on a clean checkout. -->
+	  <Content Remove="wwwroot\GoogleTagManager.js" />
+	  <Content Include="wwwroot\GoogleTagManager.js" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <BunBeforeStaticWebAssets Include="build">
 	    <Arguments>./assets/GoogleTagManager.ts --outfile ./wwwroot/GoogleTagManager.js --target browser --format esm --minify</Arguments>
 	  </BunBeforeStaticWebAssets>

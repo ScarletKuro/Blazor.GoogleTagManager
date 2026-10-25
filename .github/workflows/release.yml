@@ -51,9 +51,6 @@ jobs:
       - name: Build
         run: dotnet build Blazor.GoogleTagManager.slnx -c Release --no-restore
 
-      - name: Verify generated JS bundle is committed
-        run: git diff --exit-code -- src/Blazor.GoogleTagManager/wwwroot/GoogleTagManager.js
-
       - name: Build smoke tests
         run: dotnet build tests/Blazor.GoogleTagManager.SmokeTests/Blazor.GoogleTagManager.SmokeTests.csproj -c Release
 
@@ -67,21 +64,9 @@ jobs:
       - name: Pack
         run: dotnet pack src/Blazor.GoogleTagManager/Blazor.GoogleTagManager.csproj -c Release --no-build -o artifacts/packages
 
-      - name: Verify package contains static web asset
-        shell: bash
-        run: |
-          set -euo pipefail
-          mapfile -t packages < <(find artifacts/packages -maxdepth 1 -type f -name '*.nupkg' -print)
-
-          if [[ "${#packages[@]}" -ne 1 ]]; then
-            echo "Expected exactly one .nupkg package, found ${#packages[@]}."
-            exit 1
-          fi
-
-          if ! unzip -Z1 "${packages[0]}" | grep -Fxq 'staticwebassets/GoogleTagManager.js'; then
-            echo "Package ${packages[0]} does not contain staticwebassets/GoogleTagManager.js."
-            exit 1
-          fi
+      - name: Verify package contains generated JavaScript
+        shell: pwsh
+        run: ./scripts/Verify-PackageAssets.ps1
 
       - name: NuGet login
         id: nuget-login

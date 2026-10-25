@@ -347,3 +347,6 @@ __pycache__/
 # Scarlet.Bun downloaded runtime
 /tools/*
 !/tools/.gitkeep
+
+# Generated JavaScript bundle
+/src/Blazor.GoogleTagManager/wwwroot/GoogleTagManager.js

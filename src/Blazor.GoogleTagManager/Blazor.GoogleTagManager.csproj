@@ -9,7 +9,7 @@
 	  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	  <BunRuntimeDownload>true</BunRuntimeDownload>
 	  <BunVersionDownload>1.4.4</BunVersionDownload>
-	  <BunRuntimeDirectory>$(MSBuildProjectDirectory)\..\..\artifacts\bun-runtime</BunRuntimeDirectory>
+	  <BunRuntimeDirectory>$(MSBuildProjectDirectory)/../../tools</BunRuntimeDirectory>
 	</PropertyGroup>
 	
 	<PropertyGroup>
